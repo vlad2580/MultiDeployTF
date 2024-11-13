@@ -1,0 +1,32 @@
+# Ignore sensitive files
+.env               
+
+# Ignore PostgreSQL data
+data/               
+*.pgpass              
+
+# Local .terraform directory
+.terraform/
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+
+# Terraform variable override files (sensitive data should not be committed)
+*.tfvars
+*.tfvars.json
+
+# Terraform plan files
+*.tfplan
+
+# .terraform.lock.hcl can be optional based on your version control practices
+.terraform.lock.hcl
+
+# Ignore backup files created by Terraform
+*.backup
+
+# Exclude any secrets or credentials file
+.secret
