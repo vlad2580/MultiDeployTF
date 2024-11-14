@@ -1,35 +1,39 @@
 version: '3.8'
+
 services:
-    postgres:
-        image: postgres:15
-        environment:
-            - POSTGRES_USER=${POSTGRES_USER}
-            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-        volumes:
-            - postgres-db-volume:/var/lib/postgresql/data
-        ports:
-            - ${POSTGRES_PORT}:5432
-        networks:
-            - postgres-db-network
-    pgadmin:
-        image: dpage/pgadmin4
-        environment:
-            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-        ports:
-            - ${PGADMIN_PORT}:80
-        volumes:
-            - ./servers.json:/pgadmin4/servers.json
-        networks:
-            - postgres-db-network
+  postgres-base: &postgres-base
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - postgres-network
+
+  postgres1:
+    <<: *postgres-base
+    volumes:
+      - postgres1-data:/var/lib/postgresql/data
+    ports:
+      - ${POSTGRES_PORT_1}:5432
+
+  postgres2:
+    <<: *postgres-base
+    volumes:
+      - postgres2-data:/var/lib/postgresql/data
+    ports:
+      - ${POSTGRES_PORT_2}:5432
+
+  postgres3:
+    <<: *postgres-base
+    volumes:
+      - postgres3-data:/var/lib/postgresql/data
+    ports:
+      - ${POSTGRES_PORT_3}:5432
 
 volumes:
-    postgres-db-volume:
-        driver: local
-        driver_opts:
-            type: none
-            o: bind
-            device: ./data
+  postgres1-data:
+  postgres2-data:
+  postgres3-data:
+
 networks:
-    postgres-db-network:
-        driver: bridge
+  postgres-network:
